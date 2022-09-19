@@ -1,3 +1,7 @@
+<script setup>
+    defineProps(['campos'])
+</script>
+
 <template>
     <div>
         <v-form @submit.prevent="" class="form d-flex flex-column">
@@ -15,8 +19,3 @@
     </div>
 </template>
 
-<script>
-    export default{
-        props:['campos']
-    }
-</script>

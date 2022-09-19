@@ -1,3 +1,80 @@
+<script setup>
+  import { ref } from 'vue';
+  import { saveAs } from 'file-saver';
+  import FormularioDinamico from './components/FormularioDinamico.vue';
+  
+  const campos=ref([]);
+
+  const cargarCajaTexto=()=>{
+    campos.value.push(
+      {
+        etiqueta: "v-text-field",
+        label: "Caja de Texto",
+        valor: "",
+        type: "text"
+      }
+    )
+  }
+
+  const cargarNumero=()=>{
+    campos.value.push(
+      {
+        etiqueta: "v-text-field",
+        label: "Número",
+        valor: "",
+        type: "number"
+      }
+    )
+  }
+
+  const cargarCheck=()=>{
+    campos.value.push(
+      {
+        etiqueta: "v-checkbox",
+        label: "CheckBox",
+        valor: "",
+      }
+    )
+  }
+
+  const cargarBoton=()=>{
+    campos.value.push(
+      {
+        etiqueta: "v-btn",
+        label: "Boton",
+        valor: "Botón",
+      }
+    )
+  }
+
+  const cargarRadio=()=>{
+    campos.value.push(
+      {
+        etiqueta: "v-radio",
+        label: "Radio",
+      }
+    )
+  }
+
+  const cargarSelect=()=>{
+    campos.value.push(
+      {
+        etiqueta: "v-select",
+        label: "Select",
+        items:["Test1","Test2","Test3"],
+        type: "text",
+        valor:"Test1"
+      }
+    )
+  }
+
+  const exportar=(data)=>{
+    const formulario = new Blob([JSON.stringify(data)], { type: "text/plain;charset=utf-8" });
+    saveAs(formulario, "formulario.json");
+  }
+    
+</script>
+
 <template>
   <div>
     <v-container>
@@ -25,11 +102,8 @@
         <v-icon>mdi-send</v-icon>
         Botón
       </v-btn>
-      <v-btn width="200" height="50" @click="cargarTexto()">
-        <v-icon>mdi-alphabetical</v-icon>
-        Texto
-      </v-btn>
-      <v-btn width="200" height="50" @click="exportar()">
+     
+      <v-btn width="200" height="50" @click="exportar(campos)">
         <v-icon>mdi-download</v-icon>
       </v-btn>
       <v-app>
@@ -39,158 +113,6 @@
   </div>
 </template>
 
-<script>
-  import FormularioDinamico from './components/FormularioDinamico.vue';
-    export default{
-        name: 'App',
-        components:{
-          FormularioDinamico
-    },
-    data(){
-      return {
-          campos: [
-                
-          ]
-      };
-    },
-    methods:{
-      cargarCajaTexto(){
-        if(this.campos.length==0){
-          this.campos= [
-            {
-              etiqueta: "v-text-field",
-              label: "Caja de Texto",
-              valor: "",
-              type: "text"
-            }
-          ]
-        }
-        else{
-          this.campos.push(
-            {
-              etiqueta: "v-text-field",
-              label: "Caja de Texto",
-              valor: "",
-              type: "text"
-            }
-          )
-        }
-      },
-      cargarNumero(){
-        if(this.campos.length==0){
-          this.campos=[
-            {
-              etiqueta: "v-text-field",
-              label: "Número",
-              valor: "",
-              type: "number"
-            }
-          ]
-        }
-        else{
-          this.campos.push(
-            {
-              etiqueta: "v-text-field",
-              label: "Número",
-              valor: "",
-              type: "number"
-            }
-          )
-        }
-      },
-      cargarCheck(){
-        if(this.campos.length==0){
-          this.campos=[
-            {
-              etiqueta: "v-checkbox",
-              label: "CheckBox",
-              valor: "",
-            }
-          ]
-        }
-        else{
-          this.campos.push(
-            {
-              etiqueta: "v-checkbox",
-              label: "CheckBox",
-              valor: "",
-            }
-          )
-        }
-      },
-      cargarBoton(){
-        if(this.campos.length==0){
-          this.campos=[
-            {
-              etiqueta: "v-btn",
-              label: "Boton",
-              valor: "Botón",
-            }
-          ]
-        }
-        else{
-          this.campos.push(
-            {
-              etiqueta: "v-btn",
-              label: "Boton",
-              valor: "Botón",
-            }
-          )
-        }
-      }, 
-      cargarRadio(){
-        if(this.campos.length==0){
-          this.campos=[
-            {
-              etiqueta: "v-radio",
-              label: "Radio",
-            }
-          ]
-        }
-        else{
-          this.campos.push(
-            {
-              etiqueta: "v-radio",
-              label: "Radio",
-            }
-          )
-        }
-      },
-      cargarSelect(){
-        if(this.campos.length==0){
-          this.campos=[
-            {
-              etiqueta: "v-select",
-              label: "Select",
-              items:["Test1","Test2","Test3"],
-              type: "text",
-              valor:"Test1"
-            }
-          ]
-        }
-        else{
-          this.campos.push(
-            {
-              etiqueta: "v-select",
-              label: "Select",
-              items:["Test1","Test2","Test3"],
-              type: "text",
-              valor:"Test1"
-            }
-          )
-        }
-      },
-      cargarTexto(){
-        this.campos.push({
-          etiqueta: "v-card-text",
-          label: "Texto"
-        })
-      },
-      exportar(){
-        console.log(JSON.stringify(this.campos))
-      }
-    }
-  }
-</script>
+
 
 
