@@ -3,7 +3,8 @@
   import { saveAs } from 'file-saver';
   import FormularioDinamico from './components/FormularioDinamico.vue';
   
-  const campos=ref([]);
+  let campos=ref([]);
+  campos=require('./forms/formulario.json')
 
   const cargarCajaTexto=()=>{
     campos.value.push(
@@ -72,7 +73,18 @@
     const formulario = new Blob([JSON.stringify(data)], { type: "text/plain;charset=utf-8" });
     saveAs(formulario, "formulario.json");
   }
-    
+  
+const uploadFile=async()=>{
+      //creating form data object and append file into that form data
+  let formData = new FormData(); 
+  formData.append("file", fileupload.files[0]);
+      //network request using POST method of fetch
+  await fetch('./forms/', { 
+    method: "POST", 
+    body: formData
+  }); 
+  alert('You have successfully upload the file!');
+  }
 </script>
 
 <template>
@@ -102,14 +114,15 @@
         <v-icon>mdi-send</v-icon>
         Botón
       </v-btn>
-     
-      <v-btn width="200" height="50" @click="exportar(campos)">
-        <v-icon>mdi-download</v-icon>
-      </v-btn>
       <v-app>
         <FormularioDinamico :campos="campos"/>
       </v-app>
     </v-container>
+    <v-btn width="200" height="50" @click="exportar(campos)">
+      <v-icon>mdi-download</v-icon>
+    </v-btn>
+   <v-file-input id="fileupload" name="fileupload"></v-file-input> 
+   <v-btn id="upload-button" @click="uploadFile()"> Upload file </v-btn>
   </div>
 </template>
 

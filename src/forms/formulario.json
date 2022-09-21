@@ -1,0 +1,1 @@
+[{"etiqueta":"v-text-field","label":"Caja de Texto","valor":"","type":"text"},{"etiqueta":"v-text-field","label":"Número","valor":"","type":"number"},{"etiqueta":"v-checkbox","label":"CheckBox","valor":""},{"etiqueta":"v-radio","label":"Radio"},{"etiqueta":"v-select","label":"Select","items":["Test1","Test2","Test3"],"type":"text","valor":"Test1"}]
