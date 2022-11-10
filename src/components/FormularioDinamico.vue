@@ -1,5 +1,7 @@
 <script setup>
     defineProps(['campos'])
+    const emit=defineEmits(["prueba"])
+    
 </script>
 
 <template>
@@ -12,7 +14,10 @@
                 :label="campo.label ? campo.label: ''"
                 :type="campo.type ? campo.type : ''"
                 :items="campo.items ? campo.items : ''"
+                readonly
                 v-model="campo.valor"
+                :class="campo.class"
+                @click="emit('prueba', campo.type)"
             >
             </component>
         </v-form>

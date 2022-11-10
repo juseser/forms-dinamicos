@@ -4,15 +4,20 @@
   import FormularioDinamico from './components/FormularioDinamico.vue';
   
   let campos=ref([]);
-  campos=require('./forms/formulario.json')
+  //campos.value=require('./forms/formulario.json')
+  campos.value=require('C:/Formularios/formulario.json')
 
+  const prueba=(prueba)=>{
+      console.log(prueba)
+  }
+  
   const cargarCajaTexto=()=>{
     campos.value.push(
       {
         etiqueta: "v-text-field",
         label: "Caja de Texto",
-        valor: "",
-        type: "text"
+        type: "text",
+        class: "cajaTexto",
       }
     )
   }
@@ -34,6 +39,7 @@
         etiqueta: "v-checkbox",
         label: "CheckBox",
         valor: "",
+        type: "check"
       }
     )
   }
@@ -44,6 +50,7 @@
         etiqueta: "v-btn",
         label: "Boton",
         valor: "Botón",
+        funcion: "prueba()"
       }
     )
   }
@@ -69,62 +76,152 @@
     )
   }
 
+  // function prueba(campos, ruta){
+  //   exportar(campos)
+  //   redirect(ruta)
+  // }
   const exportar=(data)=>{
     const formulario = new Blob([JSON.stringify(data)], { type: "text/plain;charset=utf-8" });
     saveAs(formulario, "formulario.json");
   }
-  
-const uploadFile=async()=>{
-      //creating form data object and append file into that form data
-  let formData = new FormData(); 
-  formData.append("file", fileupload.files[0]);
-      //network request using POST method of fetch
-  await fetch('./forms/', { 
-    method: "POST", 
-    body: formData
-  }); 
-  alert('You have successfully upload the file!');
-  }
+
+  // const redirect=(ruta)=>{
+  //   window.location = "http://localhost:8080/AwareIM/logonOp.aw?dynamic=true&perspective=Administrator&domain=Formularios&firstCommand=startProcess,Prueba,172"
+  //   window.location.assign(ruta)
+  //   "http://localhost:8080/AwareIM/logonOp.aw?dynamic=true&perspective=Administrator&domain=Formularios&firstCommand=startProcess,Prueba,141013"
+  //   console.log(ruta)
+  // }
+
 </script>
 
 <template>
   <div>
     <v-container>
-      <v-btn width="200" height="50" @click="cargarCajaTexto()">
-        <v-icon>mdi-text-box</v-icon>
-        Caja de Texto
-      </v-btn>
-      <v-btn width="200" height="50" @click="cargarNumero()">
-        <v-icon>mdi-numeric</v-icon>
-        Numero
-      </v-btn>
-      <v-btn width="200" height="50" @click="cargarCheck()">
-        <v-icon>mdi-checkbox-marked</v-icon>
-        CheckBox
-      </v-btn>
-      <v-btn width="200" height="50" @click="cargarRadio()">
-        <v-icon>mdi-radiobox-marked</v-icon>
-        Radio
-      </v-btn>
-      <v-btn width="200" height="50" @click="cargarSelect()">
-        <v-icon>mdi-form-dropdown</v-icon>
-        Select
-      </v-btn>
-      <v-btn width="200" height="50" @click="cargarBoton()"> 
-        <v-icon>mdi-send</v-icon>
-        Botón
-      </v-btn>
-      <v-app>
-        <FormularioDinamico :campos="campos"/>
-      </v-app>
+      <table id="tabla1">
+        <tr>
+          <td><p>ELEMENTOS DEL FORMULARIO</p></td>
+        </tr>
+        <tr>
+          <td>
+            <v-btn width="200" height="50" @click="cargarCajaTexto()">
+              <v-icon>mdi-text-box</v-icon>
+              Caja de Texto
+            </v-btn>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <v-btn width="200" height="50" @click="cargarNumero()">
+              <v-icon>mdi-numeric</v-icon>
+              Numero
+            </v-btn>
+          </td>
+         
+        </tr>
+        <tr>
+          <td>
+            <v-btn width="200" height="50" @click="cargarCheck()">
+              <v-icon>mdi-checkbox-marked</v-icon>
+              CheckBox
+            </v-btn>
+          </td>
+          
+        </tr>
+        <tr>
+          <td>
+            <v-btn width="200" height="50" @click="cargarRadio()">
+            <v-icon>mdi-radiobox-marked</v-icon>
+            Radio
+            </v-btn>
+          </td>
+          
+        </tr>
+        <tr>
+          <td>
+            <v-btn width="200" height="50" @click="cargarSelect()">
+              <v-icon>mdi-form-dropdown</v-icon>
+              Select
+            </v-btn>
+          </td>
+          
+        </tr>
+        <tr>
+          <td> 
+            <v-btn width="200" height="50" @click="cargarBoton()"> 
+              <v-icon>mdi-send</v-icon>
+              Botón
+            </v-btn>
+          </td>
+          
+        </tr>
+        <tr>
+          <td>
+            <v-btn width="200" height="50" @click="exportar">
+              <v-icon>mdi-download</v-icon>
+              Exportar
+            </v-btn>
+          </td>
+         
+        </tr>
+        <!-- <tr>
+          <td>
+            <button @click="prueba(campos, 'http://localhost:8080/AwareIM/logonOp.aw?dynamic=true&perspective=Administrator&domain=Formularios&firstCommand=startProcess,Prueba,&lt;&lt;Formulario.Nombre&gt;&gt;')">Exportar</button>
+          </td>
+        </tr> -->
+      </table>
+      <table id="tabla2">
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+             <v-app>
+              <FormularioDinamico 
+                :campos="campos" 
+                @prueba="prueba"
+              />
+            </v-app> 
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
     </v-container>
-    <v-btn width="200" height="50" @click="exportar(campos)">
-      <v-icon>mdi-download</v-icon>
-    </v-btn>
-   <v-file-input id="fileupload" name="fileupload"></v-file-input> 
-   <v-btn id="upload-button" @click="uploadFile()"> Upload file </v-btn>
   </div>
 </template>
+
+<style>
+  /* .cajaTexto{
+    background-color: red;
+  }  */
+  #tabla1{
+    width:250px;
+    position:relative;
+    float: left;
+    height: auto;
+    margin-right: 10px;
+  }
+
+  #tabla1 td{
+    height: 60px;
+  }
+
+  p{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  #tabla2{
+    /*background-color: darkgray;*/
+    border-color: darkgray;
+    border-style: outset;
+    float: left;
+    height: auto;
+    position:relative;
+    width:900px;
+  }
+</style>
+
 
 
 
