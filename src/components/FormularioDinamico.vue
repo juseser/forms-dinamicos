@@ -17,7 +17,8 @@
                 readonly
                 v-model="campo.valor"
                 :class="campo.class"
-                @click="emit('prueba', campo.type)"
+                :required="campo.requerido"
+                @click="emit('prueba', campo)"
             >
             </component>
         </v-form>

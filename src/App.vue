@@ -6,9 +6,10 @@
   let campos=ref([]);
   //campos.value=require('./forms/formulario.json')
   campos.value=require('C:/Formularios/formulario.json')
+  let label=ref()
 
   const prueba=(prueba)=>{
-      console.log(prueba)
+      label.value=prueba.label
   }
   
   const cargarCajaTexto=()=>{
@@ -18,6 +19,7 @@
         label: "Caja de Texto",
         type: "text",
         class: "cajaTexto",
+        requerido:false
       }
     )
   }
@@ -27,7 +29,7 @@
       {
         etiqueta: "v-text-field",
         label: "Número",
-        valor: "",
+        valor: 123,
         type: "number"
       }
     )
@@ -76,21 +78,10 @@
     )
   }
 
-  // function prueba(campos, ruta){
-  //   exportar(campos)
-  //   redirect(ruta)
-  // }
   const exportar=(data)=>{
     const formulario = new Blob([JSON.stringify(data)], { type: "text/plain;charset=utf-8" });
     saveAs(formulario, "formulario.json");
   }
-
-  // const redirect=(ruta)=>{
-  //   window.location = "http://localhost:8080/AwareIM/logonOp.aw?dynamic=true&perspective=Administrator&domain=Formularios&firstCommand=startProcess,Prueba,172"
-  //   window.location.assign(ruta)
-  //   "http://localhost:8080/AwareIM/logonOp.aw?dynamic=true&perspective=Administrator&domain=Formularios&firstCommand=startProcess,Prueba,141013"
-  //   console.log(ruta)
-  // }
 
 </script>
 
@@ -156,18 +147,13 @@
         </tr>
         <tr>
           <td>
-            <v-btn width="200" height="50" @click="exportar">
+            <v-btn width="200" height="50" @click="exportar(campos)">
               <v-icon>mdi-download</v-icon>
               Exportar
             </v-btn>
           </td>
          
         </tr>
-        <!-- <tr>
-          <td>
-            <button @click="prueba(campos, 'http://localhost:8080/AwareIM/logonOp.aw?dynamic=true&perspective=Administrator&domain=Formularios&firstCommand=startProcess,Prueba,&lt;&lt;Formulario.Nombre&gt;&gt;')">Exportar</button>
-          </td>
-        </tr> -->
       </table>
       <table id="tabla2">
         <tr>
@@ -186,6 +172,7 @@
         </tr>
       </table>
     </v-container>
+    <input type="text" v-model="label"/>
   </div>
 </template>
 
