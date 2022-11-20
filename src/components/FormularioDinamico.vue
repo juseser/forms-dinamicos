@@ -1,6 +1,6 @@
 <script setup>
     defineProps(['campos'])
-    const emit=defineEmits(["prueba"])
+    const emit=defineEmits(["editarCampos"])
     
 </script>
 
@@ -15,10 +15,11 @@
                 :type="campo.type ? campo.type : ''"
                 :items="campo.items ? campo.items : ''"
                 readonly
-                v-model="campo.valor"
                 :class="campo.class"
                 :required="campo.requerido"
-                @click="emit('prueba', campo)"
+                @click="emit('editarCampos', campo)"
+                :maxlength="campo.maxlength"
+                id=campo.id
             >
             </component>
         </v-form>

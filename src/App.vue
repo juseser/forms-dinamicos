@@ -6,20 +6,44 @@
   let campos=ref([]);
   //campos.value=require('./forms/formulario.json')
   campos.value=require('C:/Formularios/formulario.json')
-  let label=ref()
+  let label=ref('Caja de Texto')
+  let requerido=ref(true)
+  let maxlength=ref(null)
+  let tipoInput=ref()
+  let type=ref()
+  let id=ref()
 
-  const prueba=(prueba)=>{
-      label.value=prueba.label
+  const editarCampos=(campo)=>{
+      type.value=campo.type
+      tipoInput.value=campo.etiqueta
+      label.value=campo.label
+      requerido.value=campo.requerido
+      maxlength.value=campo.maxlength
+      id.value=campo.id
+
+      let formulario=document.getElementById('form')
+      formulario.addEventListener('submit', function() {
+      formulario.reset();
+    });
   }
-  
+  const cambiarValores=()=>{
+    Object.values(campos.value).forEach((campo) => {
+        if(campo.id===id.value){
+          campo.label=label
+        }
+    });
+
+  }
   const cargarCajaTexto=()=>{
     campos.value.push(
       {
+        id:Date.now(),
         etiqueta: "v-text-field",
-        label: "Caja de Texto",
+        label: label.value,
         type: "text",
         class: "cajaTexto",
-        requerido:false
+        requerido:requerido.value,
+        maxlength:maxlength.value
       }
     )
   }
@@ -52,7 +76,6 @@
         etiqueta: "v-btn",
         label: "Boton",
         valor: "Botón",
-        funcion: "prueba()"
       }
     )
   }
@@ -161,18 +184,55 @@
           <td></td>
           <td>
              <v-app>
-              <FormularioDinamico 
-                :campos="campos" 
-                @prueba="prueba"
-              />
-            </v-app> 
+                <FormularioDinamico 
+                  :campos="campos" 
+                  @editarCampos="editarCampos"
+                />
+              </v-app> 
           </td>
           <td></td>
           <td></td>
         </tr>
       </table>
     </v-container>
-    <input type="text" v-model="label"/>
+    <div id="tabla3">
+      <form action="#" v-show="tipoInput==='v-text-field' && type!='number'" id="form">
+        <div><center><label id="titulo"></label></center></div>
+        <v-text-field label="Label" v-model="label"></v-text-field>
+        <v-checkbox  label="Requerido" v-model="requerido"></v-checkbox>
+        <input v-model="id" type="hidden">
+        <v-text-field label="Max. Caracteres" v-model="maxlength"></v-text-field>
+        <v-btn @click="cambiarValores" color="dark" type="submit"><v-icon>mdi-check-decagram</v-icon>Guardar</v-btn>
+      </form>
+
+      <form action="#" v-show="tipoInput==='v-text-field' && type==='number'" id="form">
+        <div><center><label id="titulo"></label></center></div>
+        <v-text-field label="Label" v-model="label"></v-text-field>
+        <v-checkbox  label="Requerido" v-model="requerido"></v-checkbox>
+        <v-btn type="submit" class="btn btn-primary boton" id="guardar" color="dark"><v-icon>mdi-check-decagram</v-icon>Guardar</v-btn>
+      </form>
+
+      <form action="#" v-show="tipoInput==='v-checkbox'" id="form">
+        <div><center><label id="titulo"></label></center></div>
+        <v-text-field label="Label" v-model="label"></v-text-field>
+        <v-checkbox  label="Requerido" v-model="requerido"></v-checkbox>
+        <v-btn type="submit" class="btn btn-primary boton" id="guardar" color="dark"><v-icon>mdi-check-decagram</v-icon>Guardar</v-btn>
+      </form>
+
+      <form action="#" v-show="tipoInput==='v-radio'" id="form">
+        <div><center><label id="titulo"></label></center></div>
+        <v-text-field label="Label" v-model="label"></v-text-field>
+        <v-checkbox  label="Requerido" v-model="requerido"></v-checkbox>
+        <v-btn type="submit" class="btn btn-primary boton" id="guardar" color="dark"><v-icon>mdi-check-decagram</v-icon>Guardar</v-btn>
+      </form>
+
+      <form action="#" v-show="tipoInput==='v-select'" id="form">
+        <div><center><label id="titulo"></label></center></div>
+        <v-text-field label="Label" v-model="label"></v-text-field>
+        <v-checkbox  label="Requerido" v-model="requerido"></v-checkbox>
+        <v-btn @click="cambiarValores" color="dark"><v-icon>mdi-check-decagram</v-icon>Guardar</v-btn>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -199,13 +259,22 @@
   }
 
   #tabla2{
-    /*background-color: darkgray;*/
     border-color: darkgray;
     border-style: outset;
     float: left;
     height: auto;
     position:relative;
     width:900px;
+  }
+
+  #form{
+    background-color: #F1F2F4;
+    float: left;
+    height: auto;
+    position:relative;
+    width:550px;
+    margin-left: 50px;
+    padding: 15px;
   }
 </style>
 
